@@ -5,10 +5,24 @@
 	<body>
 
 
-<div id="app">{{ getResult }}</div>
+<div id="app">{{ getResult.value }}</div>
 
 <script>
-async function getAllData() {
+  const { createApp, ref } = Vue
+
+  createApp({
+    data() {
+      return { getResult: 'I like eggs.' };
+    },
+
+
+    created() {
+		     debugger;
+       this.getAllData();
+    },
+  methods:  {
+
+async getAllData() {
   try {
     const chuckAPI = 'https://api.chucknorris.io/jokes/random';
     const res = await fetch(chuckAPI);
@@ -37,17 +51,9 @@ async function getAllData() {
     this.getResult = err.message;
   }
 }
+	}
 
-  const { createApp, ref } = Vue
 
-  createApp({
-    data() {
-      return { getResult: 'I like eggs.' };
-    },
-
-    setup() {
-       this.getAllData();
-    }
   }).mount('#app')
 </script>
 	</body>
