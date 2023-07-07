@@ -1,0 +1,53 @@
+<html>
+	<head>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	</head>
+	<body>
+
+
+<div id="app">{{ message }}</div>
+
+<script>
+async function getAllData() {
+  try {
+    const chuckAPI = 'https://api.chucknorris.io/jokes/random';
+    const res = await fetch(chuckAPI);
+
+    if (!res.ok) {
+      const message = `An error has occured: ${res.status} - ${res.statusText}`;
+      throw new Error(message);
+    }
+
+    const data = await res.json();
+
+    const result = {
+      status: res.status + "-" + res.statusText,
+      headers: {
+	"Content-Type": res.headers.get("Content-Type"),
+	"Content-Length": res.headers.get("Content-Length"),
+      },
+      length: res.headers.get("Content-Length"),
+      data: data,
+    };
+    console.log(result.data);
+    // this.getResult = this.fortmatResponse(result);
+  } catch (err) {
+    this.getResult = err.message;
+  }
+}
+
+  const { createApp, ref } = Vue
+
+  createApp({
+    setup() {
+      // const message = ref('Hello vue!')
+      const message = this.getAllData();
+      return {
+        message
+      }
+    }
+  }).mount('#app')
+</script>
+	</body>
+</html>
+
