@@ -5,7 +5,7 @@
 	<body>
 
 
-<div id="app">{{ message }}</div>
+<div id="app">{{ getResult }}</div>
 
 <script>
 async function getAllData() {
@@ -30,6 +30,8 @@ async function getAllData() {
       data: data,
     };
     console.log(result.data);
+    window.hack = result.data;
+    this.getResult = result.data;
     // this.getResult = this.fortmatResponse(result);
   } catch (err) {
     this.getResult = err.message;
@@ -39,12 +41,12 @@ async function getAllData() {
   const { createApp, ref } = Vue
 
   createApp({
+    data() {
+      return { getResult: 'I like eggs.' };
+    },
+
     setup() {
-      // const message = ref('Hello vue!')
-      const message = this.getAllData();
-      return {
-        message
-      }
+       this.getAllData();
     }
   }).mount('#app')
 </script>
